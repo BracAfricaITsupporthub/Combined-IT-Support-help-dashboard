@@ -6,19 +6,19 @@
 <title>BRAC International Kenya | IT Help Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 <style>
 :root{
-  --bg:#f4f1ea;
-  --panel:#fbf9f4;
-  --ink:#2b2a28;
-  --ink-soft:#6c675f;
-  --ink-faint:#9a948a;
-  --line:#e4ddd0;
-  --tint:#efe9dd;
-  --teal:#5a8a84;
-  --teal-soft:#9cbdb8;
+  --bg:#faf5f8;
+  --panel:#fffdfd;
+  --ink:#2d252b;
+  --ink-soft:#6c6068;
+  --ink-faint:#968a92;
+  --line:#eadde5;
+  --tint:#f8edf3;
+  --teal:#ec008c;
+  --teal-soft:#f2a0ce;
   --amber:#c99a4e;
   --coral:#c67b6a;
   --slate:#6a7a8c;
@@ -33,8 +33,9 @@
   --radius:8px;
 }
 body.dark{
-  --bg:#1c1f24;--panel:#24282f;--ink:#eceae5;--ink-soft:#b2ada4;--ink-faint:#817c73;
-  --line:#333841;--tint:#2b3038;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  --bg:#201a20;--panel:#2a222a;--ink:#f6edf2;--ink-soft:#c5b6c0;--ink-faint:#9b8995;
+  --line:#423441;--tint:#352a34;--teal:#f34aac;--teal-soft:#a84378;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
   background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.03) 1px,transparent 0);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -45,36 +46,39 @@ body{
   font-family:'DM Sans',sans-serif;
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(circle at 1px 1px,rgba(43,42,40,.025) 1px,transparent 0);
+  background-image:radial-gradient(circle at 1px 1px,rgba(133,27,86,.045) 1px,transparent 0);
   background-size:22px 22px;
 }
 
 /* Sticky bar */
-.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);box-shadow:0 4px 18px rgba(70,30,54,.04)}
+.topbar::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--teal)}
 .topbar-in{max-width:1140px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:.2px}
-.brand .logo{width:32px;height:32px;border-radius:8px;background:var(--teal);color:#fff;display:grid;place-items:center}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px;letter-spacing:.1px;white-space:nowrap}
+.brand img{display:block;width:90px;height:auto}
+.brand-name{border-left:1px solid var(--line);padding-left:12px;color:var(--ink-soft)}
 .search{flex:1;min-width:200px;max-width:420px;position:relative}
 .search input{width:100%;padding:8px 12px 8px 36px;border-radius:8px;border:1px solid var(--line);background:var(--tint);font-family:inherit;font-size:14px;color:var(--ink);outline:none;transition:border .15s}
-.search input:focus{border-color:var(--teal)}
+.search input:focus{border-color:var(--teal);box-shadow:0 0 0 3px color-mix(in srgb,var(--teal) 12%,transparent)}
 .search input::placeholder{color:var(--ink-faint)}
 .search .si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-faint)}
 .icon-btn{width:34px;height:34px;border-radius:var(--radius);border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;flex-shrink:0}
+.theme-btn{width:auto;display:inline-flex;align-items:center;gap:8px;padding:0 11px;font:500 12px 'DM Sans',sans-serif}
 .icon-btn:hover{color:var(--ink);border-color:var(--teal-soft)}
 
 /* Layout */
 .wrap{max-width:1140px;margin:0 auto;padding:0 28px 80px}
 
 /* Hero */
-.hero{padding:34px 0 14px}
+.hero{padding:30px 32px 28px;margin:30px 0 0;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;background:linear-gradient(110deg,color-mix(in srgb,var(--teal) 7%,var(--panel)),var(--panel) 64%);box-shadow:var(--shadow)}
 .eyebrow{font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);font-weight:500}
-.hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,4.5vw,48px);line-height:1.08;margin:10px 0 8px;letter-spacing:-.4px}
+.hero h1{font-weight:700;font-size:clamp(30px,4.5vw,48px);line-height:1.08;margin:10px 0 8px;letter-spacing:-1.5px}
 .hero p{color:var(--ink-soft);max-width:560px;font-size:15.5px}
 
 /* Quick system tiles */
 .quick-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin:28px 0 40px}
-.qtile{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--line);cursor:pointer;transition:box-shadow .15s,transform .1s;font-weight:500;font-size:13.5px;color:var(--ink)}
-.qtile:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.qtile{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:10px;background:var(--panel);border:1px solid var(--line);cursor:pointer;transition:box-shadow .15s,transform .1s,border-color .15s;font-weight:500;font-size:13.5px;color:var(--ink);text-decoration:none}
+.qtile:hover{box-shadow:var(--shadow);transform:translateY(-2px);border-color:var(--teal-soft)}
 .qtile .qi{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:#fff;flex-shrink:0}
 .qtile .qi.teal{background:var(--teal)}.qtile .qi.amber{background:var(--amber)}.qtile .qi.coral{background:var(--coral)}.qtile .qi.slate{background:var(--slate)}.qtile .qi.sage{background:var(--sage)}.qtile .qi.plum{background:var(--plum)}.qtile .qi.sky{background:var(--sky)}.qtile .qi.sandstone{background:var(--sandstone)}
 
@@ -82,11 +86,11 @@ body{
 .sec{margin-bottom:36px}
 .sec-head{margin-bottom:16px}
 .sec-head .k{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:1.5px}
-.sec-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin-top:3px;letter-spacing:-.3px}
+.sec-head h2{font-weight:700;font-size:22px;margin-top:3px;letter-spacing:-.45px}
 
 /* Topic cards */
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s}
-.card:hover{box-shadow:0 2px 4px rgba(43,42,40,.06),0 12px 32px rgba(43,42,40,.09)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s,border-color .2s}
+.card:hover{box-shadow:0 2px 4px rgba(43,42,40,.06),0 12px 32px rgba(43,42,40,.09);border-color:var(--teal-soft)}
 .card-hd{padding:16px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;user-select:none}
 .card-hd .ci{width:32px;height:32px;border-radius:7px;display:grid;place-items:center;color:#fff;flex-shrink:0}
 .card-hd h3{font-size:15px;font-weight:600;flex:1}
@@ -135,6 +139,16 @@ body{
 @media(max-width:760px){
   .grid-2,.system-grid{grid-template-columns:1fr}
   .quick-row{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .topbar-in{padding:12px 18px}
+  .wrap{padding:0 18px 56px}
+  .hero{padding:24px 22px;margin-top:22px}
+}
+@media(max-width:480px){
+  .brand img{width:74px}
+  .brand{gap:9px;font-size:13px}
+  .brand-name{padding-left:9px}
+  .search{order:3;flex-basis:100%;max-width:none}
+  .topbar-in{gap:10px}
 }
 </style>
 </head>
@@ -144,13 +158,14 @@ body{
 <div class="topbar">
   <div class="topbar-in">
     <div class="brand">
-      <span class="logo"><i data-lucide="monitor" style="width:17px"></i></span> IT Help Hub
+      <img src="brac-logo.png" alt="BRAC">
+      <span class="brand-name">IT Help Hub</span>
     </div>
     <div class="search">
       <span class="si"><i data-lucide="search" style="width:15px"></i></span>
       <input type="text" id="searchBox" placeholder="Search help topics…" autocomplete="off">
     </div>
-    <button class="icon-btn" id="themeBtn" title="Toggle theme"><i data-lucide="moon" style="width:16px"></i></button>
+    <button class="icon-btn theme-btn" id="themeBtn" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme"><i data-lucide="moon" style="width:16px"></i><span id="themeLabel">Dark mode</span></button>
   </div>
 </div>
 
@@ -641,11 +656,24 @@ searchBox.addEventListener('input',function(){
 });
 
 /* Theme toggle */
-document.getElementById('themeBtn').addEventListener('click',function(){
-  document.body.classList.toggle('dark');
-  const dark=document.body.classList.contains('dark');
-  this.innerHTML=dark?'<i data-lucide="sun" style="width:16px"></i>':'<i data-lucide="moon" style="width:16px"></i>';
-  lucide.createIcons();
+const themeBtn=document.getElementById('themeBtn');
+const themeStorageKey='brac-it-help-hub-theme';
+
+function setTheme(dark){
+  document.body.classList.toggle('dark',dark);
+  const nextTheme=dark?'light':'dark';
+  themeBtn.setAttribute('aria-pressed',String(dark));
+  themeBtn.setAttribute('aria-label',`Switch to ${nextTheme} theme`);
+  themeBtn.title=`Switch to ${nextTheme} theme`;
+  themeBtn.innerHTML=`<i data-lucide="${dark?'sun':'moon'}" style="width:16px"></i><span>${dark?'Light':'Dark'} mode</span>`;
+  if(window.lucide)lucide.createIcons();
+}
+
+setTheme(localStorage.getItem(themeStorageKey)==='dark');
+themeBtn.addEventListener('click',function(){
+  const dark=!document.body.classList.contains('dark');
+  localStorage.setItem(themeStorageKey,dark?'dark':'light');
+  setTheme(dark);
 });
 
 /* Init icons */
