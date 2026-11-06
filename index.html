@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAC International Kenya | IT Help Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<style>
+:root{
+  --bg:#f4f1ea;
+  --panel:#fbf9f4;
+  --ink:#2b2a28;
+  --ink-soft:#6c675f;
+  --ink-faint:#9a948a;
+  --line:#e4ddd0;
+  --tint:#efe9dd;
+  --teal:#5a8a84;
+  --teal-soft:#9cbdb8;
+  --amber:#c99a4e;
+  --coral:#c67b6a;
+  --slate:#6a7a8c;
+  --sage:#8a9a6f;
+  --plum:#8c7490;
+  --sky:#6a8aa8;
+  --sandstone:#b08050;
+  --good:#6f9169;
+  --warn:#c99a4e;
+  --bad:#c0624f;
+  --shadow:0 1px 2px rgba(43,42,40,.04),0 8px 24px rgba(43,42,40,.06);
+  --radius:8px;
+}
+body.dark{
+  --bg:#1c1f24;--panel:#24282f;--ink:#eceae5;--ink-soft:#b2ada4;--ink-faint:#817c73;
+  --line:#333841;--tint:#2b3038;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.03) 1px,transparent 0);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 1px 1px,rgba(43,42,40,.025) 1px,transparent 0);
+  background-size:22px 22px;
+}
+
+/* Sticky bar */
+.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1140px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:.2px}
+.brand .logo{width:32px;height:32px;border-radius:8px;background:var(--teal);color:#fff;display:grid;place-items:center}
+.search{flex:1;min-width:200px;max-width:420px;position:relative}
+.search input{width:100%;padding:8px 12px 8px 36px;border-radius:8px;border:1px solid var(--line);background:var(--tint);font-family:inherit;font-size:14px;color:var(--ink);outline:none;transition:border .15s}
+.search input:focus{border-color:var(--teal)}
+.search input::placeholder{color:var(--ink-faint)}
+.search .si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-faint)}
+.icon-btn{width:34px;height:34px;border-radius:var(--radius);border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;flex-shrink:0}
+.icon-btn:hover{color:var(--ink);border-color:var(--teal-soft)}
+
+/* Layout */
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px 80px}
+
+/* Hero */
+.hero{padding:34px 0 14px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);font-weight:500}
+.hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,4.5vw,48px);line-height:1.08;margin:10px 0 8px;letter-spacing:-.4px}
+.hero p{color:var(--ink-soft);max-width:560px;font-size:15.5px}
+
+/* Quick system tiles */
+.quick-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin:28px 0 40px}
+.qtile{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--line);cursor:pointer;transition:box-shadow .15s,transform .1s;font-weight:500;font-size:13.5px;color:var(--ink)}
+.qtile:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.qtile .qi{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:#fff;flex-shrink:0}
+.qtile .qi.teal{background:var(--teal)}.qtile .qi.amber{background:var(--amber)}.qtile .qi.coral{background:var(--coral)}.qtile .qi.slate{background:var(--slate)}.qtile .qi.sage{background:var(--sage)}.qtile .qi.plum{background:var(--plum)}.qtile .qi.sky{background:var(--sky)}.qtile .qi.sandstone{background:var(--sandstone)}
+
+/* Section headers */
+.sec{margin-bottom:36px}
+.sec-head{margin-bottom:16px}
+.sec-head .k{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:1.5px}
+.sec-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin-top:3px;letter-spacing:-.3px}
+
+/* Topic cards */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s}
+.card:hover{box-shadow:0 2px 4px rgba(43,42,40,.06),0 12px 32px rgba(43,42,40,.09)}
+.card-hd{padding:16px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;user-select:none}
+.card-hd .ci{width:32px;height:32px;border-radius:7px;display:grid;place-items:center;color:#fff;flex-shrink:0}
+.card-hd h3{font-size:15px;font-weight:600;flex:1}
+.card-hd .chev{color:var(--ink-faint);transition:transform .25s}
+.card-hd.open .chev{transform:rotate(180deg)}
+.card-bd{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.card-bd.open{max-height:1200px}
+.card-inner{padding:0 20px 20px}
+
+/* Card content styles */
+.steps{counter-reset:step;list-style:none;padding:0}
+.steps li{counter-increment:step;padding:6px 0 6px 32px;position:relative;font-size:14px;color:var(--ink-soft);line-height:1.55}
+.steps li::before{content:counter(step);position:absolute;left:0;top:5px;width:22px;height:22px;border-radius:50%;background:var(--tint);color:var(--teal);font-size:11px;font-weight:600;display:grid;place-items:center;font-family:'DM Mono',monospace}
+.sub-card{background:var(--tint);border-radius:6px;padding:14px 16px;margin:8px 0}
+.sub-card h4{font-size:13.5px;font-weight:600;margin-bottom:5px}
+.sub-card p,.sub-card li{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.sub-card ul{padding-left:18px;margin:4px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info{font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.info b{color:var(--ink);font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600;margin-left:6px}
+.tag.green{background:color-mix(in srgb,var(--good) 18%,var(--panel));color:var(--good)}
+.tag.amber{background:color-mix(in srgb,var(--warn) 18%,var(--panel));color:#a7813e}
+.tag.red{background:color-mix(in srgb,var(--bad) 15%,var(--panel));color:var(--bad)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--ink-soft);margin-top:6px}
+.badge i{width:14px}
+.system-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sys-tile{padding:13px 15px;border-radius:7px;background:var(--tint);border:1px solid var(--line)}
+.sys-tile h4{font-size:13.5px;font-weight:600;margin-bottom:4px}
+.sys-tile p{font-size:12.5px;color:var(--ink-faint);line-height:1.45}
+
+/* CTA */
+.cta-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:7px;font-size:13px;font-weight:600;border:1px solid var(--teal);color:var(--teal);background:transparent;cursor:pointer;transition:.15s}
+.cta:hover{background:var(--teal);color:#fff}
+.cta-fill{background:var(--teal);color:#fff;border-color:var(--teal)}
+.cta-fill:hover{opacity:.9}
+
+/* No results */
+.no-match{display:none;text-align:center;padding:48px 0;color:var(--ink-faint);font-size:15px}
+.no-match.show{display:block}
+
+/* Footer */
+.foot{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);display:flex;gap:24px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-faint);font-family:'DM Mono',monospace}
+
+@media(max-width:760px){
+  .grid-2,.system-grid{grid-template-columns:1fr}
+  .quick-row{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+}
+</style>
+</head>
+<body>
+
+<!-- Sticky top bar -->
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="logo"><i data-lucide="monitor" style="width:17px"></i></span> IT Help Hub
+    </div>
+    <div class="search">
+      <span class="si"><i data-lucide="search" style="width:15px"></i></span>
+      <input type="text" id="searchBox" placeholder="Search help topics…" autocomplete="off">
+    </div>
+    <button class="icon-btn" id="themeBtn" title="Toggle theme"><i data-lucide="moon" style="width:16px"></i></button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="eyebrow">BRAC International · Kenya Regional Office · IT Self-Service</div>
+  <h1>Find answers fast.</h1>
+  <p>Everything you need to get set up, stay connected, and solve common IT issues — all in one place. Can't find it? Raise a ticket below.</p>
+</section>
+
+<!-- Quick-access tiles -->
+<div class="quick-row" id="quickRow">
+  <a class="qtile" href="#sec-connectivity"><span class="qi teal"><i data-lucide="wifi" style="width:17px"></i></span>Wi-Fi</a>
+  <a class="qtile" href="#sec-meeting"><span class="qi slate"><i data-lucide="tv" style="width:17px"></i></span>Meeting rooms</a>
+  <a class="qtile" href="#sec-printers"><span class="qi sandstone"><i data-lucide="printer" style="width:17px"></i></span>Printers</a>
+  <a class="qtile" href="#sec-o365"><span class="qi plum"><i data-lucide="mail" style="width:17px"></i></span>Office 365</a>
+  <a class="qtile" href="#sec-laptop"><span class="qi coral"><i data-lucide="laptop" style="width:17px"></i></span>Laptop help</a>
+  <a class="qtile" href="#sec-biometrics"><span class="qi sky"><i data-lucide="scan-face" style="width:17px"></i></span>Biometrics</a>
+  <a class="qtile" href="#sec-security"><span class="qi sage"><i data-lucide="shield" style="width:17px"></i></span>Security</a>
+  <a class="qtile" href="#sec-procurement"><span class="qi amber"><i data-lucide="package" style="width:17px"></i></span>Procurement</a>
+</div>
+
+<!-- 01 Connectivity -->
+<div class="sec" id="sec-connectivity">
+  <div class="sec-head"><div class="k">01</div><h2>Internet connectivity</h2></div>
+  <div class="card" data-search="internet wifi connectivity password network">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci teal"><i data-lucide="wifi" style="width:16px"></i></span>
+      <h3>Wi-Fi access &amp; password</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="info">
+        <b>Office Wi-Fi network:</b> <code>Brac.Africa</code><br>
+        <b>Guest Wi-Fi network:</b> <code>Guest</code><br>
+        <b>Current password:</b> <code>@BracAfrica%</code>
+      </div>
+      <div class="sub-card">
+        <h4>How to connect</h4>
+        <ol class="steps">
+          <li>Click the Wi-Fi icon in your system tray</li>
+          <li>Select <b>Brac.Africa</b> from the network list</li>
+          <li>Enter the current password when prompted</li>
+        </ol>
+      </div>
+      <div class="badge"><i data-lucide="info" style="width:14px"></i>Guest network is unauthenticated but limited to internet-only (no internal resources).</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 02 Meeting rooms -->
+<div class="sec" id="sec-meeting">
+  <div class="sec-head"><div class="k">02</div><h2>Meeting rooms</h2></div>
+  <div class="card" data-search="meeting room tv display adapter cable connect hdmi">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci slate"><i data-lucide="tv" style="width:16px"></i></span>
+      <h3>TV connections &amp; adapters</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="info">
+        All meeting rooms are equipped with a wall-mounted display and an HDMI input panel on the table. Adapters are available for USB-C and Mini DisplayPort laptops.
+      </div>
+      <div class="grid-2">
+        <div class="sub-card">
+          <h4>How to connect</h4>
+          <ol class="steps">
+            <li>Plug the HDMI cable into your laptop (use an adapter if needed)</li>
+            <li>Select <b>HDMI 1</b> on the TV using the remote</li>
+            <li>On your laptop, set display mode to <b>Duplicate</b> or <b>Extend</b></li>
+            <li>For audio, ensure the TV is selected as the audio output device</li>
+          </ol>
+        </div>
+        <div class="sub-card">
+          <h4>Available adapters</h4>
+          <ul>
+            <li><b>USB-C → HDMI</b> — 2 per room</li>
+          </ul>
+          <div class="badge"><i data-lucide="alert-circle" style="width:14px"></i>If an adapter is missing, raise a ticket immediately.</div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 03 Printers -->
+<div class="sec" id="sec-printers">
+  <div class="sec-head"><div class="k">03</div><h2>Printers</h2></div>
+  <div class="card" data-search="printer connect hp kyocera scan scanning email hr rd mf">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci sandstone"><i data-lucide="printer" style="width:16px"></i></span>
+      <h3>How to connect &amp; use office printers</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="sub-card">
+        <h4>Step 1 — Add the printer</h4>
+        <ol class="steps">
+          <li>Open <b>Settings → Bluetooth &amp; devices → Printers</b> (Windows) or <b>System Settings → Printers</b> (Mac)</li>
+          <li>Click <b>Add printer</b> and wait for the network scan</li>
+          <li>Select the printer by name (see list below)</li>
+          <li>Windows will auto-install the driver; Mac may prompt to download — accept</li>
+          <li>Print a test page to confirm</li>
+        </ol>
+      </div>
+      <div class="sub-card">
+        <h4>HP Printers</h4>
+        <div class="info" style="margin-bottom:8px">
+          <b>HP-HR</b> — HR department, 1st Floor Old Regional Office <span class="tag green">Color + B/W</span><br>
+          <b>HP-RD</b> — 1st Floor <span class="tag green">Color + B/W</span><br>
+          <b>HP-MF</b> — Multi-function <span class="tag green">Color + B/W</span>
+        </div>
+      </div>
+      <div class="sub-card">
+        <h4>Kyocera Printers</h4>
+        <div class="info" style="margin-bottom:8px">
+          <b>Kyocera-MA3500 Color</b> — Old Regional Office, Ground Floor <span class="tag green">Color</span><br>
+          <b>Kyocera-M2040 dn BW</b> — Ground Floor <span class="tag amber">B/W only</span><br>
+          <b>Kyocera-M2040 dn BW</b> — 2nd Floor <span class="tag amber">B/W only</span><br>
+          <b>Kyocera M4125idn</b> — 1st Floor <span class="tag amber">B/W only</span>
+        </div>
+      </div>
+      <div class="sub-card">
+        <h4>Scanning to email</h4>
+        <ol class="steps">
+          <li>Load your document face-down on the scanner glass or in the ADF</li>
+          <li>Press <b>Scan</b> on the printer panel</li>
+          <li>Select <b>Scan to Email</b></li>
+          <li>Enter your email address (or select from the address book)</li>
+          <li>Choose PDF or JPEG, then press <b>Start</b></li>
+          <li>Check your inbox — scans typically arrive within 60 seconds</li>
+        </ol>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 04 Office 365 -->
+<div class="sec" id="sec-o365">
+  <div class="sec-head"><div class="k">04</div><h2>Office 365</h2></div>
+  <div class="card" data-search="office 365 o365 outlook teams onedrive sharepoint license login">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci plum"><i data-lucide="mail" style="width:16px"></i></span>
+      <h3>Office 365 setup &amp; access</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="info">
+        All staff receive an Office 365 license renewed annually. Your suite includes Outlook, Teams, OneDrive (1 TB), SharePoint, and the full Office desktop apps.
+      </div>
+      <div class="sub-card">
+        <h4>First-time sign-in</h4>
+        <ol class="steps">
+          <li>Go to <b>portal.office.com</b></li>
+          <li>Sign in with your corporate email address. The supplied domains are <code>brackn.brac.net</code> and <code>bihbv.brac.net</code>; confirm your exact address with IT if unsure.</li>
+          <li>Enter the temporary password provided by IT</li>
+          <li>Set a new password (min 12 chars, mix of upper/lower/number/symbol)</li>
+          <li>Set up MFA using the Microsoft Authenticator app</li>
+          <li>Install desktop apps from the portal, or use the web versions</li>
+        </ol>
+      </div>
+      <div class="sub-card">
+        <h4>Common tasks</h4>
+        <ul>
+          <li><b>Outlook:</b> Email, calendar, and contacts — accessible via web, desktop, or mobile</li>
+          <li><b>OneDrive:</b> Cloud file storage — sync to your laptop for offline access</li>
+          <li><b>SharePoint:</b> Team sites and document libraries — access via browser</li>
+        </ul>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 05 Sophos -->
+<div class="sec" id="sec-sophos">
+  <div class="sec-head"><div class="k">05</div><h2>Sophos Antivirus</h2></div>
+  <div class="card" data-search="sophos antivirus virus malware scan protection endpoint">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci sage"><i data-lucide="shield" style="width:16px"></i></span>
+      <h3>Sophos Endpoint Protection</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="info">
+        Sophos is pre-installed and managed centrally by IT. You should <b>never</b> disable or uninstall it. It runs continuous real-time protection and automatic daily scans.
+      </div>
+      <div class="sub-card">
+        <h4>If Sophos alerts you</h4>
+        <ol class="steps">
+          <li>Do not dismiss the alert — note the file name and location</li>
+          <li>Let Sophos quarantine the threat automatically</li>
+          <li>If the alert persists, disconnect from Wi-Fi and raise a P1 ticket</li>
+          <li>Do not attempt to remove the file manually</li>
+        </ol>
+      </div>
+      <div class="badge"><i data-lucide="info" style="width:14px"></i>Sophos is auto-updated — if you see "definitions outdated" for more than 24 hours, contact IT.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 06 IT Policy -->
+<div class="sec" id="sec-policy">
+  <div class="sec-head"><div class="k">06</div><h2>IT Policy</h2></div>
+  <div class="card" data-search="it policy acceptable use guidelines rules compliance">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci sky"><i data-lucide="book-open" style="width:16px"></i></span>
+      <h3>Acceptable use &amp; IT policies</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="info">
+        All employees must acknowledge the IT Acceptable Use Policy on their first day. Key points:
+      </div>
+      <div class="sub-card">
+        <ul>
+          <li><b>Device use:</b> Corporate devices are for business purposes only. Personal use should be minimal and must not interfere with work.</li>
+          <li><b>Software:</b> Only approved, licensed software may be installed. Do not download unverified applications.</li>
+          <li><b>Data:</b> Confidential data must stay on corporate systems (OneDrive, SharePoint). Never use personal cloud or USB drives for company data.</li>
+          <li><b>Passwords:</b> Minimum 12 characters, changed every 90 days. Never share your credentials.</li>
+          <li><b>Security incidents:</b> Report any suspected breach, phishing email, or lost device to IT immediately.</li>
+        </ul>
+      </div>
+      <div class="cta-row">
+        <button class="cta"><i data-lucide="download" style="width:14px"></i> Download full policy (PDF)</button>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 07 Laptop issues -->
+<div class="sec" id="sec-laptop">
+  <div class="sec-head"><div class="k">07</div><h2>Laptop issues</h2></div>
+  <div class="card" data-search="laptop issues slow frozen battery screen keyboard hardware problem troubleshoot">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci coral"><i data-lucide="laptop" style="width:16px"></i></span>
+      <h3>Common laptop issues &amp; what to do</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="grid-2">
+        <div class="sub-card">
+          <h4>Slow performance</h4>
+          <ol class="steps">
+            <li>Close unused browser tabs and applications</li>
+            <li>Restart the laptop (not just sleep — full restart)</li>
+            <li>Check disk space: if less than 10 GB free, clear temp files</li>
+            <li>If still slow after restart, raise a ticket with "slow laptop" in the subject</li>
+          </ol>
+        </div>
+        <div class="sub-card">
+          <h4>Frozen / unresponsive</h4>
+          <ol class="steps">
+            <li>Wait 30 seconds — sometimes a process finishes in the background</li>
+            <li>Press <b>Ctrl + Shift + Esc</b> to open Task Manager</li>
+            <li>End any process showing "Not Responding"</li>
+            <li>If completely frozen, hold the power button for 10 seconds to force shutdown</li>
+            <li>Turn back on — if the issue recurs, raise a ticket</li>
+          </ol>
+        </div>
+        <div class="sub-card">
+          <h4>Battery draining fast</h4>
+          <ol class="steps">
+            <li>Check for runaway processes in Task Manager (CPU &gt; 20%)</li>
+            <li>Reduce screen brightness to 50–70%</li>
+            <li>Disconnect unused USB peripherals</li>
+            <li>If battery life is under 2 hours on light use, request a battery check via ticket</li>
+          </ol>
+        </div>
+        <div class="sub-card">
+          <h4>Blue screen (BSOD)</h4>
+          <ol class="steps">
+            <li>Note the error code at the bottom of the blue screen</li>
+            <li>Restart — most BSODs are one-time events</li>
+            <li>If it happens twice in the same day, raise a P1 ticket with the error code</li>
+            <li>Do not attempt to reinstall Windows yourself</li>
+          </ol>
+        </div>
+      </div>
+      <div class="badge"><i data-lucide="alert-circle" style="width:14px"></i>Never attempt hardware repairs yourself — all laptop servicing is done by IT.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 08 Biometrics -->
+<div class="sec" id="sec-biometrics">
+  <div class="sec-head"><div class="k">08</div><h2>Biometrics</h2></div>
+  <div class="card" data-search="biometric fingerprint face id access door entry attendance">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci sky"><i data-lucide="scan-face" style="width:16px"></i></span>
+      <h3>Biometric access &amp; attendance</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="info">
+        The office uses fingerprints or staff badges for door entry.
+      </div>
+      <div class="sub-card">
+        <h4>First-time enrollment</h4>
+        <ol class="steps">
+          <li>Visit IT with your employee ID badge</li>
+          <li>IT will register your fingerprint and badge at the enrollment terminal</li>
+          <li>Scan each finger 3 times until the system confirms capture</li>
+          <li>Test access at the nearest biometric door before leaving</li>
+        </ol>
+      </div>
+      <div class="sub-card">
+        <h4>Troubleshooting</h4>
+        <ul>
+          <li><b>"Fingerprint not recognized":</b> Clean your finger and the sensor. Try a different finger. If repeated failures, visit IT for re-enrollment.</li>
+          <li><b>Door won't open after successful scan:</b> The lock may have a 3-second delay — wait briefly. If still stuck, use the intercom or call security.</li>
+        </ul>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 09 Systems -->
+<div class="sec" id="sec-systems">
+  <div class="sec-head"><div class="k">09</div><h2>Systems</h2></div>
+  <div class="card" data-search="systems sbi cloud gmail nolan binsight application login portal">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci teal"><i data-lucide="server" style="width:16px"></i></span>
+      <h3>Core business systems</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="system-grid">
+        <div class="sys-tile">
+          <h4>SBI Cloud</h4>
+          <p>sbiCloud is a custom-built Enterprise Resource Planning (ERP) software developed by BRAC IT Services Limited to manage core operational, human resource and financial processes across BRAC International. For password resets, use the default password process communicated by IT.</p>
+        </div>
+        <div class="sys-tile">
+          <h4>Gmail (Corporate)</h4>
+          <p>Company email runs on Google Workspace. Sign in at <b>mail.google.com</b> with your corporate email. 2FA required.</p>
+        </div>
+        <div class="sys-tile">
+          <h4>Nolan</h4>
+          <p>Nolan specifically deals with financial processes and staff payslips linked with SBI Cloud.</p>
+        </div>
+        <div class="sys-tile">
+          <h4>BInsight</h4>
+          <p>BInsight is the central MIS and mobile data collection platform designed to digitize, manage and scale BRAC International's AIM (Accelerating Impact for Young Women) operations across Africa.</p>
+        </div>
+      </div>
+      <div class="badge" style="margin-top:12px"><i data-lucide="info" style="width:14px"></i>If you experience challenges with these platforms, raise a ticket with IT for resolution.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 10 Security -->
+<div class="sec" id="sec-security">
+  <div class="sec-head"><div class="k">10</div><h2>Security</h2></div>
+  <div class="card" data-search="security password change 2fa two factor mfa authentication phishing">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci sage"><i data-lucide="shield-check" style="width:16px"></i></span>
+      <h3>Password change &amp; 2FA activation</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="grid-2">
+        <div class="sub-card">
+          <h4>Change your password</h4>
+          <ol class="steps">
+            <li>Press <b>Ctrl + Alt + Delete</b> and select <b>Change a password</b></li>
+            <li>Enter your current password, then your new password twice</li>
+            <li>Password requirements: min 12 characters, upper + lower + number + symbol</li>
+            <li>Wait 5 minutes for the change to propagate to all systems</li>
+            <li>Update saved passwords in your browser and mobile apps</li>
+          </ol>
+          <div class="badge"><i data-lucide="info" style="width:14px"></i>Passwords expire every 90 days.</div>
+        </div>
+        <div class="sub-card">
+          <h4>Activate 2FA / MFA</h4>
+          <ol class="steps">
+            <li>Sign in to your Google/Gmail account at <a href="https://myaccount.google.com/security" target="_blank" rel="noopener">Google My Account – Security</a></li>
+            <li>Under “How you sign in to Google”, select <b>2-Step Verification</b></li>
+            <li>Select <b>Get Started</b> and re-enter your account password</li>
+            <li>Choose a second step, such as Google Prompt, text/voice code or an authenticator app</li>
+            <li>Follow the on-screen instructions to verify your device or phone number, then turn it on</li>
+          </ol>
+        </div>
+      </div>
+      <div class="sub-card" style="margin-top:12px">
+        <h4>Phishing — how to spot it</h4>
+        <ul>
+          <li>Unexpected emails asking you to "verify your account" or "reset password" — always check the sender address</li>
+          <li>Urgency or threats (for example, "Your account will be locked in 24 hours") — pause and verify the request through an official channel</li>
+          <li>Links that don't match the displayed text — hover before you click</li>
+          <li>Attachments you were not expecting — do not open. Report suspicious messages to IT at <b>itsupport.africa@brac.net</b> or through the approved IT support channel.</li>
+        </ul>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 11 Procurement -->
+<div class="sec" id="sec-procurement">
+  <div class="sec-head"><div class="k">11</div><h2>Procurement</h2></div>
+  <div class="card" data-search="procurement laptop device specification purchase request order hardware">
+    <div class="card-hd" onclick="toggle(this)">
+      <span class="ci amber"><i data-lucide="package" style="width:16px"></i></span>
+      <h3>Specifications &amp; requesting laptops &amp; devices</h3>
+      <span class="chev"><i data-lucide="chevron-down" style="width:18px"></i></span>
+    </div>
+    <div class="card-bd"><div class="card-inner">
+      <div class="sub-card">
+        <h4>Standard laptop specifications</h4>
+        <div class="info">
+          <table style="width:100%;font-size:13px;border-collapse:collapse">
+            <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 0;font-weight:600">Component</td><td style="padding:6px 0;font-weight:600">Standard spec</td><td style="padding:6px 0;font-weight:600">Power-user spec</td></tr>
+            <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 0">Processor</td><td style="padding:6px 0">Intel Core i5 / AMD Ryzen 5</td><td style="padding:6px 0">Intel Core i7 / AMD Ryzen 7</td></tr>
+            <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 0">RAM</td><td style="padding:6px 0">16 GB</td><td style="padding:6px 0">32 GB</td></tr>
+            <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 0">Storage</td><td style="padding:6px 0">256 GB SSD</td><td style="padding:6px 0">512 GB SSD</td></tr>
+            <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 0">Display</td><td style="padding:6px 0">14" FHD</td><td style="padding:6px 0">15.6" FHD</td></tr>
+            <tr><td style="padding:6px 0">OS</td><td style="padding:6px 0">Windows 11 Pro</td><td style="padding:6px 0">Windows 11 Pro</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="sub-card">
+        <h4>How to request a device</h4>
+        <ol class="steps">
+          <li>Get approval from your manager by email</li>
+          <li>Submit a signed procurement request form to the Procurement team</li>
+          <li>Specify the device type, quantity and justification</li>
+          <li>Procurement places the order — typical lead time is 5–10 business days</li>
+          <li>IT configures and deploys the device when it arrives</li>
+        </ol>
+      </div>
+      <div class="badge"><i data-lucide="info" style="width:14px"></i>Non-standard specs require VP-level approval and may add 5+ days to delivery.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- No results message -->
+<div class="no-match" id="noMatch">No matching topics found. Try a different search term, or raise a ticket for help.</div>
+
+<!-- CTA bar -->
+<div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+  <span class="info">For IT assistance, raise a ticket through the organization’s approved IT service desk.</span>
+</div>
+
+<!-- Footer -->
+<div class="foot">
+  <span>Source: Internal IT knowledge base</span>
+  <span>Updated: Oct 2026</span>
+  <span>For assistance: raise an IT support ticket</span>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+/* Accordion toggle */
+function toggle(hd){
+  const bd=hd.nextElementSibling;
+  const open=hd.classList.toggle('open');
+  bd.classList.toggle('open');
+}
+
+/* Search */
+const searchBox=document.getElementById('searchBox');
+const sections=document.querySelectorAll('.sec');
+const cards=document.querySelectorAll('.card');
+const noMatch=document.getElementById('noMatch');
+
+searchBox.addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  let anyVisible=false;
+  sections.forEach(sec=>{
+    const card=sec.querySelector('.card');
+    const haystack=(card.dataset.search||'')+' '+card.textContent.toLowerCase();
+    const match=!q||haystack.includes(q);
+    sec.style.display=match?'':'none';
+    if(match)anyVisible=true;
+  });
+  noMatch.classList.toggle('show',!anyVisible);
+  // auto-expand matching cards when searching
+  if(q){
+    cards.forEach(card=>{
+      const haystack=(card.dataset.search||'')+' '+card.textContent.toLowerCase();
+      if(haystack.includes(q)){
+        card.querySelector('.card-hd').classList.add('open');
+        card.querySelector('.card-bd').classList.add('open');
+      }
+    });
+  }
+});
+
+/* Theme toggle */
+document.getElementById('themeBtn').addEventListener('click',function(){
+  document.body.classList.toggle('dark');
+  const dark=document.body.classList.contains('dark');
+  this.innerHTML=dark?'<i data-lucide="sun" style="width:16px"></i>':'<i data-lucide="moon" style="width:16px"></i>';
+  lucide.createIcons();
+});
+
+/* Init icons */
+if(window.lucide)lucide.createIcons();
+</script>
+</body>
+</html>
