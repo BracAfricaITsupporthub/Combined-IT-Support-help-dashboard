@@ -35,7 +35,7 @@
 body.dark{
   --bg:#201a20;--panel:#2a222a;--ink:#f6edf2;--ink-soft:#c5b6c0;--ink-faint:#9b8995;
   --line:#423441;--tint:#352a34;--teal:#f34aac;--teal-soft:#a84378;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0, 0, 0, 0.35);
   background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.03) 1px,transparent 0);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -128,6 +128,21 @@ body{
 .cta:hover{background:var(--teal);color:#fff}
 .cta-fill{background:var(--teal);color:#fff;border-color:var(--teal)}
 .cta-fill:hover{opacity:.9}
+
+/* Public suggestion guestbook */
+.suggestion-box{margin-top:32px;padding:22px;border:1px solid var(--line);border-radius:10px;background:var(--panel);box-shadow:var(--shadow)}
+.suggestion-box h2{font-size:20px;letter-spacing:-.3px}
+.suggestion-box-intro{margin:5px 0 16px;color:var(--ink-soft);font-size:13.5px}
+.suggestion-form{display:grid;gap:10px}
+.suggestion-form textarea{width:100%;min-height:110px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--tint);color:var(--ink);font:inherit;font-size:14px;resize:vertical}
+.suggestion-form textarea:focus{outline:2px solid color-mix(in srgb,var(--teal) 35%,transparent);border-color:var(--teal)}
+.suggestion-form textarea::placeholder{color:var(--ink-faint)}
+.suggestion-form button{justify-self:start}
+.suggestion-status{min-height:1.5em;color:var(--ink-soft);font-size:13px}
+.suggestion-list{display:grid;gap:10px;margin-top:16px}
+.suggestion-entry{padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--tint)}
+.suggestion-entry p{color:var(--ink);font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.suggestion-entry time{display:block;margin-top:8px;color:var(--ink-faint);font:11px 'DM Mono',monospace}
 
 /* No results */
 .no-match{display:none;text-align:center;padding:48px 0;color:var(--ink-faint);font-size:15px}
@@ -604,6 +619,21 @@ body{
 <!-- No results message -->
 <div class="no-match" id="noMatch">No matching topics found. Try a different search term, or raise a ticket for help.</div>
 
+<!-- Anonymous public suggestion guestbook -->
+<section class="suggestion-box" aria-labelledby="suggestionTitle">
+  <h2 id="suggestionTitle">Share your suggestions</h2>
+  <p class="suggestion-box-intro">How best do you think this dashboard can be improved? What are your thoughts on how we can serve you better? Suggestions are anonymous and visible to everyone. Please don't include personal or sensitive information. Suggestions are removed after six months.</p>
+  <form class="suggestion-form" id="suggestionForm">
+    <label for="suggestionText"><b>Your suggestion</b></label>
+    <textarea id="suggestionText" name="suggestion" minlength="10" maxlength="1000" placeholder="Share what you think could be improved..." required></textarea>
+    <button class="cta cta-fill" id="suggestionSubmit" type="submit" disabled>Submit suggestion</button>
+    <p class="suggestion-status" id="suggestionStatus" role="status" aria-live="polite">The anonymous guestbook is not connected yet. Suggestions are not being collected.</p>
+  </form>
+  <div class="suggestion-list" id="suggestionList" aria-live="polite">
+    <p class="info">Suggestions will appear here once the guestbook is connected.</p>
+  </div>
+</section>
+
 <!-- CTA bar -->
 <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
   <span class="info">For assistance, raise a ticket through the organization's approved IT desk <a href="https://sbijira.brac.net/secure/Dashboard.jspa" target="_blank" rel="noopener noreferrer">here</a>.</span>
@@ -618,6 +648,9 @@ body{
 
 </div><!-- /wrap -->
 
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script>
 /* Accordion toggle */
 function toggle(hd){
@@ -675,6 +708,117 @@ themeBtn.addEventListener('click',function(){
   localStorage.setItem(themeStorageKey,dark?'dark':'light');
   setTheme(dark);
 });
+
+/* Anonymous public suggestions */
+const firebaseConfig={
+  apiKey:'AIzaSyAcqZriGAjnmj3Bff-fqnLiqPCdK5hJBuw',
+  authDomain:'brac-it-help-hub.firebaseapp.com',
+  projectId:'brac-it-help-hub',
+  appId:'1:1088160950973:web:852af0bba68b85a441e5d4'
+};
+const suggestionForm=document.getElementById('suggestionForm');
+const suggestionText=document.getElementById('suggestionText');
+const suggestionSubmit=document.getElementById('suggestionSubmit');
+const suggestionStatus=document.getElementById('suggestionStatus');
+const suggestionList=document.getElementById('suggestionList');
+
+function showSuggestionMessage(message){
+  suggestionList.replaceChildren();
+  const paragraph=document.createElement('p');
+  paragraph.className='info';
+  paragraph.textContent=message;
+  suggestionList.append(paragraph);
+}
+
+function addMonths(date,months){
+  const result=new Date(date);
+  const day=result.getDate();
+  result.setDate(1);
+  result.setMonth(result.getMonth()+months);
+  result.setDate(Math.min(day,new Date(result.getFullYear(),result.getMonth()+1,0).getDate()));
+  return result;
+}
+
+suggestionForm.addEventListener('submit',async function(event){
+  event.preventDefault();
+  if(!window.suggestionCollection)return;
+  const suggestion=suggestionText.value.trim();
+  if(suggestion.length<10||suggestion.length>1000){
+    suggestionStatus.textContent='Please enter a suggestion between 10 and 1,000 characters.';
+    return;
+  }
+
+  suggestionSubmit.disabled=true;
+  suggestionStatus.textContent='Submitting your suggestion...';
+  try{
+    const now=new Date();
+    await window.suggestionCollection.add({
+      suggestion,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+      deleteAt:firebase.firestore.Timestamp.fromDate(addMonths(now,6))
+    });
+    suggestionText.value='';
+    suggestionStatus.textContent='Thank you. Your anonymous suggestion is now shared with everyone.';
+  }catch(error){
+    console.error('Could not submit the anonymous suggestion.',error);
+    suggestionStatus.textContent='Your suggestion could not be submitted. Please try again later.';
+  }finally{
+    suggestionSubmit.disabled=false;
+  }
+});
+
+const firebaseConfigReady=Object.values(firebaseConfig).every(value=>value&&!value.startsWith('YOUR_'));
+if(!firebaseConfigReady){
+  suggestionStatus.textContent='Firebase setup is required before suggestions can be submitted or displayed.';
+}else if(!window.firebase){
+  suggestionStatus.textContent='The guestbook service could not load. Please try again later.';
+  showSuggestionMessage('Suggestions could not be loaded because the guestbook service is unavailable.');
+}else{
+  (async function connectSuggestionGuestbook(){
+    try{
+    firebase.initializeApp(firebaseConfig);
+    await firebase.auth().signInAnonymously();
+    window.suggestionCollection=firebase.firestore().collection('dashboardSuggestions');
+    const cutoff=firebase.firestore.Timestamp.fromDate(addMonths(new Date(),-6));
+    window.suggestionCollection
+      .where('createdAt','>=',cutoff)
+      .orderBy('createdAt','desc')
+      .onSnapshot(snapshot=>{
+        suggestionList.replaceChildren();
+        if(snapshot.empty){
+          showSuggestionMessage('No suggestions yet. Be the first to share your thoughts.');
+          return;
+        }
+        snapshot.forEach(documentSnapshot=>{
+          const entry=documentSnapshot.data();
+          if(typeof entry.suggestion!=='string')return;
+          const article=document.createElement('article');
+          article.className='suggestion-entry';
+          const text=document.createElement('p');
+          text.textContent=entry.suggestion;
+          article.append(text);
+          if(entry.createdAt&&typeof entry.createdAt.toDate==='function'){
+            const time=document.createElement('time');
+            time.dateTime=entry.createdAt.toDate().toISOString();
+            time.textContent=entry.createdAt.toDate().toLocaleDateString();
+            article.append(time);
+          }
+          suggestionList.append(article);
+        });
+      },error=>{
+        console.error('Could not load public dashboard suggestions.',error);
+        suggestionStatus.textContent='Suggestions could not be loaded. Please try again later.';
+        showSuggestionMessage('The guestbook is temporarily unavailable.');
+      });
+    suggestionSubmit.disabled=false;
+      suggestionStatus.textContent='Your suggestion is anonymous and will be visible to everyone.';
+    }catch(error){
+      console.error('Could not initialize the anonymous suggestion guestbook.',error);
+      suggestionStatus.textContent='The guestbook could not connect. Please try again later.';
+      showSuggestionMessage('Suggestions could not be loaded because the guestbook service is unavailable.');
+    }
+  })();
+}
 
 /* Init icons */
 if(window.lucide)lucide.createIcons();
